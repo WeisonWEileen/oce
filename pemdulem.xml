@@ -12,7 +12,7 @@
             <geom type="capsule" size="0.02" fromto="0 0 0 0.1 0 0" />
             <body pos="0.1 0 0">
                 <!-- 第二段单摆 -->
-                <joint type="hinge" axis="0 1 0" />
+                <joint type="hinge" axis="0 1 0" damping="0.004"/>
                 <geom type="capsule" size="0.02" fromto="0 0 0 0.1 0 0" />
             </body>
         </body>
