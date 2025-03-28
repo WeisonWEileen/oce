@@ -1,0 +1,20 @@
+<mujoco model="double pendulum">
+    <option integrator="RK4">
+        <flag constraint="disable" energy="enable" />
+    </option>
+
+    <worldbody>
+        <light pos="0 0 2" />
+        <geom pos="0 0 -.5" type="plane" size="1 1 .01" />
+        <body pos="0 0 0">
+            <!-- 第一段单摆 -->
+            <joint type="hinge" axis="0 1 0" />
+            <geom type="capsule" size="0.02" fromto="0 0 0 0.1 0 0" />
+            <body pos="0.1 0 0">
+                <!-- 第二段单摆 -->
+                <joint type="hinge" axis="0 1 0" />
+                <geom type="capsule" size="0.02" fromto="0 0 0 0.1 0 0" />
+            </body>
+        </body>
+    </worldbody>
+</mujoco>
