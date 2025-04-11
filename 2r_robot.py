@@ -21,7 +21,7 @@ step_interval = 10
 # print(d.qpos)
 # exit()
 
-with mujoco.viewer.launch_passive(m, d) as viewer:
+with mujoco.viewer.launch(m, d) as viewer:
     while viewer.is_running():
         step_start = time.time()
         print(d.qpos)
