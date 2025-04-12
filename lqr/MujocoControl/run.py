@@ -24,15 +24,15 @@ class LQR_Perdulum():
     print(f"Pole mass: {m_p}")
     print(f"Length of pendulem {length}")
 
-    # distretize
-    A = np.array([
+    # 
+    A_con = np.array([
       [0,                        0,      1,      0],
       [0,                        0,      0,     -1],
       [0,               -m_p*g/m_c,      0,      0],
       [0, -(m_c+m_p)*g/(length*m_c),     0,      0]]
     )
 
-    B = np.array([
+    B_con = np.array([
         [0],
         [0],
         [1/m_c],
@@ -41,8 +41,9 @@ class LQR_Perdulum():
 
     dt = self.model.opt.timestep
 
-    A = np.eye(4) + A * dt
-    B = B * dt 
+    # distretize
+    A = np.eye(4) + A_con * dt
+    B = B_con * dt 
 
     Q = np.diag([1, 100, 10, 10])  # state weight
     R = np.array([[5]])        # input weight
@@ -59,7 +60,7 @@ class LQR_Perdulum():
   def control(self):
       x_error = np.array([
           self.data.qpos[0],       
-          self.data.qpos[1] - np.pi,
+          np.pi - self.data.qpos[1],
           self.data.qvel[0],       
           self.data.qvel[1]        
       ])
