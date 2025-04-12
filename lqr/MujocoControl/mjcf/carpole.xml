@@ -5,20 +5,22 @@
   </default>
   <asset>
     <texture name="grid" type="2d" builtin="checker" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4" width="512" height="512"/>
+    <material name="plain" rgba="0.8 0.8 0.2 1" />
     <material name="grid" class="unused" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2"/>
   </asset>
   <worldbody>
       <light name="main_light" pos="0 0 3" dir="0 0 -1" diffuse="1 1 1" specular="0.3 0.3 0.3"
       directional="true" />
-    <geom name="floor" class="unused" type="plane" condim="3" size="0 0 0.05" material="grid" pos="0 0 -1"/>
+    <geom name="floor" class="unused" type="plane" condim="3" size="0 0 0.05" material="grid"
+      pos="0 0 -1" />
     <body name="Cart" pos="0 0 0" euler="0 -0 0">
-            <!-- change inertia, different from sdf -->
-            <!-- For this model case, with the cart not having any rotational
+      <!-- change inertia, different from sdf -->
+      <!-- For this model case, with the cart not having any rotational
              degrees of freedom, the values of the inertia matrix do not
              participate in the model. Therefore we just set them to zero
              (or near to zero since sdformat does not allow exact zeroes
              for inertia values). -->
-      <inertial pos="0 0 0" mass="5" diaginertia="0.00000000001 0.00000000001 0.00000000001"/>
+      <inertial pos="0 0 0" mass="10" diaginertia="0.00000000001 0.00000000001 0.00000000001"/>
       <geom name="cart_visual" class="unused" type="box" contype="0" conaffinity="0" group="0" size="0.12 0.06 0.06" pos="0 0 0" euler="0 -0 0"/>
       <joint name="CartSlider" class="unused" type="slide" pos="0 0 0" axis="1 0 0"/>
       <body name="Pole" pos="0 0 -0.5" euler="0 -0 0">
@@ -30,10 +32,8 @@
     </body>
   </worldbody>
   <sensor>
-        <!-- joint position sensing -->
         <jointpos joint="CartSlider" name="cart_p"/>
         <jointpos joint="PolePin" name="pole_theta"/>
-        <!-- joint velocity sensing -->
         <jointvel joint="CartSlider" name="cart_v"/>
         <jointvel joint="PolePin" name="pole_w"/>
   </sensor>
