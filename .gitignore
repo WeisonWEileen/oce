@@ -1,1 +1,7 @@
 MUJOCO_LOG.TXT
+mlp_mnist_detection/data
+*.npz
+*.zip
+*.pth
+*.pt
+mlp_mnist_detection/test.py

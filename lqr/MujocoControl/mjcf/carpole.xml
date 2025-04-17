@@ -42,6 +42,6 @@
   </actuator>
   
   <keyframe>
-    <key name="off1" qpos="0 3.45"/>
+    <key name="off1" qpos="0 2.5"/>
   </keyframe>
 </mujoco>
