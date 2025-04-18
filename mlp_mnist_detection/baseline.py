@@ -79,40 +79,27 @@ test_loader = DataLoader(
     generator=g
 )
 
-# 模型定义（与之前相同）
-class ResidualMLP(nn.Module):
+class SimpleMLP(nn.Module):
     def __init__(self):
         super().__init__()
-        self.input_fc = nn.Linear(784, HIDDEN_DIM)
-        
-        self.blocks = nn.ModuleList([
-            nn.Sequential(
-                nn.Linear(HIDDEN_DIM, HIDDEN_DIM),
-                nn.BatchNorm1d(HIDDEN_DIM),
-                nn.GELU(),
-                nn.Dropout(DROPOUT),
-                nn.Linear(HIDDEN_DIM, HIDDEN_DIM)
-            ) for _ in range(NUM_BLOCKS)
-        ])
-        
-        self.bn = nn.BatchNorm1d(HIDDEN_DIM)
-        self.output_fc = nn.Linear(HIDDEN_DIM, 10)
+        self.model = nn.Sequential(
+            nn.Linear(784, 256),  # 输入层到隐藏层
+            nn.ReLU(),           # 激活函数
+            nn.Dropout(DROPOUT), # Dropout 防止过拟合
+            nn.Linear(256, 128), # 隐藏层到隐藏层
+            nn.ReLU(),           # 激活函数
+            nn.Dropout(DROPOUT), # Dropout 防止过拟合
+            nn.Linear(128, 10)   # 隐藏层到输出层
+        )
 
     def forward(self, x):
-        x = x.view(-1, 784)
-        x = self.input_fc(x)
-        
-        for block in self.blocks:
-            residual = x
-            x = block(x)
-            x = residual + x  
-            
-        x = self.bn(x)
-        x = self.output_fc(x)
+        x = x.view(-1, 784)  # 将输入展平为 1D 向量
+        x = self.model(x)
         return x
 
+
 # 初始化模型
-model = ResidualMLP().to(device)
+model = SimpleMLP().to(device)
 optimizer = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
 scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=EPOCHS)
 criterion = nn.CrossEntropyLoss(label_smoothing=LABEL_SMOOTHING)
@@ -145,7 +132,7 @@ def train(epoch):
         pbar.set_postfix({'Loss': f"{train_loss/(total/BATCH_SIZE):.3f}", 
                          'Acc': f"{100.*correct/total:.2f}%"})
 
-    training_losses.append(train_loss/len(train_loader))
+    training_losses.append(train_loss / len(train_loader))
 def test():
     model.eval()
     test_loss = 0
@@ -186,7 +173,7 @@ import matplotlib.pyplot as plt
 
 # 绘制训练和测试损失曲线
 plt.figure(figsize=(10, 6))
-plt.plot(range(1, EPOCHS + 1), training_losses, label='Training Loss', marker='*')
+plt.plot(range(1, EPOCHS + 1), training_losses, label='Training Loss', marker='o')
 plt.plot(range(1, EPOCHS + 1), testing_losses, label='Testing Loss', marker='o')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
@@ -195,4 +182,4 @@ plt.legend()
 plt.grid(True)
 
 # 保存图像到文件
-plt.savefig('loss_baseline.png')
+plt.savefig('loss_curve_layer_norm_baseline.png')

@@ -5,3 +5,4 @@ mlp_mnist_detection/data
 *.pth
 *.pt
 mlp_mnist_detection/test.py
+**/__pycache__/
