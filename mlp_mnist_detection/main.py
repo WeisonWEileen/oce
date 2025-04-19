@@ -32,10 +32,11 @@ def seed_worker(worker_id):
 
 # hyper params settings
 BATCH_SIZE = 128
-EPOCHS = 25
-HIDDEN_DIM = 128
+EPOCHS = 50
+HIDDEN_DIM = 300
 NUM_BLOCKS = 3
-DROPOUT = 0.3
+MASKING_RATIO = 0.08
+DROPOUT = 0.2
 LR = 1e-3
 WEIGHT_DECAY = 1e-4
 LABEL_SMOOTHING = 0.1
@@ -103,7 +104,7 @@ if __name__ == "__main__":
     test_set = datasets.MNIST(root='./data', train=False, download=True, transform=test_transform)
     print(f"testing data shape {test_set.data.shape}")
 
-    model = ResMLP(depth=4, in_channels=1, dim=380, images_size=train_set.data.shape[1], patches_size=4, num_classes=10)
+    model = ResMLP(depth=NUM_BLOCKS, in_channels=1, dim=HIDDEN_DIM, images_size=train_set.data.shape[1], patches_size=4, dropout=DROPOUT, num_classes=10, masking_ratio=MASKING_RATIO)
     model.to(device)
 
     optimizer = optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
@@ -112,8 +113,8 @@ if __name__ == "__main__":
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=EPOCHS)
 
     best_acc = 0.0
-    train_losses = []
     test_losses = []
+    train_losses = []
     for epoch in range(EPOCHS):
         
         # training
@@ -138,9 +139,9 @@ if __name__ == "__main__":
             pbar.set_postfix({'Loss': f"{train_loss/(total/BATCH_SIZE):.3f}", 
                          'Acc': f"{100.*correct/total:.2f}%"})
         
-        print(train_loss/len(train_loader))
-        train_losses.append(train_loss)
-
+        avg_train_loss = train_loss / len(train_loader)
+        train_losses.append(avg_train_loss)
+        
         # testing
         model.eval()
         test_loss = 0

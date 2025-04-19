@@ -1,12 +1,17 @@
-### ResMLP Mnist Report, Wei Pan (潘炜)
+### ResMLP with Patching masking Report[Wei Pan(潘炜)]
 > to reproduce the result, please refer to [here](./Experiment.md)
 
-I will implement ResMLP, which means MLP with residual learning proposed at Meta's paper [ResMLP](https://arxiv.org/abs/2105.03404). By the way, resnet is simple and beautiful. Also thanks to Kaiming He's Resnet [Paper](https://arxiv.org/abs/1512.03385).  And I implement a simple MLP baseline. It get  
-0.55 % accuracy increse then the MLP baseline.
-because `.ipynb` or jupyter notebook is so slow and inefficient. I will use `.py` to implement the model.
-
-### Accuracy in MLP with Resiual
-get bese accuracy of `99.30%
+I will implement ResMLP with patch masking, which means MLP with residual connection proposed on Meta's paper [ResMLP].  (https://arxiv.org/abs/2105.03404). Additionally, I added patches masking to increase the model's robustness. By the way, resnet is simple and beautiful. Also thanks to Kaiming He's Resnet [Paper](https://arxiv.org/abs/1512.03385).  And I implement a simple MLP baseline. Below are results and implementation details. 
+### Result
+| Model                     | accuracy (%) |
+|--------------------------|----------|
+| MLP  baseline                   | 98.85    |
+| **ResMLP**                  | 99.30    |
+| **ResMLP with Patch Masking** | 99.41    |
+### MLP with Resiual
+hyperparameter settings
+![alt text](image-3.png)
+get bese accuracy of `99.41%`
 ![alt text](loss_curve.png)
 ![alt text](image-2.png)
 #### key network design of ResMLP
@@ -14,6 +19,8 @@ get bese accuracy of `99.30%
 - using Affine transforme to replace layer normalization
 implementation
 - use token-mixing and channel0mixing to capture the global information.
+
+And the  I also add **patch masking**, get a higher accuracy of 99.36
 
 ```
 # note nn.Conv2d is used to generate image patch, not to implement a traditional convolutional nerual network
