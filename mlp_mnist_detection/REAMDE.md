@@ -8,13 +8,8 @@ I will implement **ResMLP with patch masking**. ResMLP was  proposed on Meta's p
 | MLP  baseline                   | 98.85    |
 | **ResMLP**                  | 99.30    |
 | **ResMLP with Patch Masking** | 99.41    |
-### MLP with Resiual
-hyperparameter settings
-![alt text](image-3.png)
-get bese accuracy of `99.41%`
-![alt text](loss_curve.png)
-![alt text](image-2.png)
-#### key network design of ResMLP with patch masking
+
+#### Model arckitecture
 ![alt text](assets/image.png)
 - using Affine transforme to replace layer normalization
 implementation
@@ -125,8 +120,13 @@ class ResMLP(nn.Module):
 
 
 ```
-
-### Baseline 
+### Training Details
+hyperparameter settings
+![alt text](image-3.png)
+get bese accuracy of `99.41%`
+![alt text](loss_curve.png)
+![alt text](image-2.png)
+### Baseline Implementation
 here I implement a very simple MLP baseline。
 And using the same training hyper-params. And get `98.85%` best accuracy
 ```
@@ -156,4 +156,4 @@ class SimpleMLP(nn.Module):
 
 
 ### Abliation Study
-to do
+no time to do
