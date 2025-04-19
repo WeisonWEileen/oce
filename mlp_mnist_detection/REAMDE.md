@@ -9,7 +9,7 @@ I will implement **ResMLP with patch masking**. ResMLP was  proposed on Meta's p
 | **ResMLP**                  | 99.30    |
 | **ResMLP with Patch Masking** | 99.41    |
 
-#### Model arckitecture
+### Model arckitecture
 ![alt text](assets/image.png)
 - using Affine transforme to replace layer normalization
 implementation
@@ -122,8 +122,11 @@ class ResMLP(nn.Module):
 ```
 ### Training Details
 hyperparameter settings
+
 ![alt text](image-3.png)
+
 get bese accuracy of `99.41%`
+
 ![alt text](loss_curve.png)
 ![alt text](image-2.png)
 ### Baseline Implementation
