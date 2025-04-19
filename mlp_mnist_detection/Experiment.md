@@ -10,7 +10,7 @@ conda activate clearlab_oc
 pip install -r requirements.txt
 ```
 ### reproduce Resmlp with patch masking
-I will use `.py` to implement the model because `.ipynb` is extremely slow 
+please contact me if you cannot reproduce the result. I will use `.py` to implement the model because `.ipynb` is extremely slow.
 ```
 cd mlp_mnist_detection
 python3 main.py
